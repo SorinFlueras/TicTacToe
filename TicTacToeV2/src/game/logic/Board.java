@@ -55,61 +55,110 @@ public class Board {
 	
 	//return winner (X or O) or 0 for draw
 	public char checkWinner(){
-		//if counterRows, counterColumns, counterMainDiag or counterSecondaryDiag reaches 3 X or O won
-		int counterRowsX = 0;
-		int counterRowsO = 0;
-		int counterColumnsX = 0;
-		int counterColumnsO = 0;
-		int counterMainDiagX = 0;
-		int counterMainDiagO = 0;
-		int counterSecondaryDiagX = 0;
-		int counterSecondaryDiagO = 0;
-		
-		for(int i = 0; i < boardSize; i++) {
-			for(int j = 0; j < boardSize; j++) {
-				// check for X on rows
-				if(tiles[i][j] == 'X') {
-					counterRowsX++;
+		int counterX = 0;
+		int counterO = 0;
+			//check for X and O on rows
+			for(int y = 0; y < boardSize; y++) {
+				if(tiles[y][0] == 'X') {
+					for(int z = 1; z < boardSize; z++) {	
+						if(tiles[y][0] == tiles[y][z]) {
+							counterX++;
+						}
+					}
+					if(counterX == 2) {
+						return 'X';
+					}
+					else {
+						counterX = 0;
+					}
 				}
-				// check for O on rows
-				if(tiles[i][j] == 'O') {
-					counterRowsO++;
-				}
-				// check for X on columns
-				if(tiles[j][i] == 'X') {
-					counterColumnsX++;
-				}
-				// check for O on columns
-				if(tiles[j][i] == 'O') {
-					counterColumnsO++;
-				}
-				//check for X on main diagonal
-				if(tiles[i][j] == 'X' & i == j) {
-					counterMainDiagX++;
-				}
-				//check for O on main diagonal
-				if(tiles[i][j] == 'O' & i == j) {
-					counterMainDiagO++;
-				}
-				//check for X on secondary diagonal
-				if (tiles[i][j] == 'X' & i == Math.abs(j - 2)) {
-					counterSecondaryDiagX++;
-				}
-				//check for O on secondary diagonal
-				if (tiles[i][j] == 'O' & i == Math.abs(j - 2)) {
-					counterSecondaryDiagO++;
+				else if(tiles[y][0] == 'O') {
+					for(int z = 1; z < boardSize; z++) {	
+						if(tiles[y][0] == tiles[y][z]) {
+							counterO++;
+						}
+					}
+					if(counterO == 2) {
+						return 'O';
+					}
+					else {
+						counterO = 0;
+					}
 				}
 			}
-		}
-		if(counterRowsX == boardSize || counterColumnsX == boardSize || counterMainDiagX == boardSize || counterSecondaryDiagX == boardSize) {
-			return 'X';
-		}
-		else if(counterRowsO == boardSize || counterColumnsO == boardSize || counterMainDiagO == boardSize || counterSecondaryDiagO == boardSize) {
-			return 'O';
-		}
-		else {
-			return 0; //draw
-		}
+			// check for X and O on columns
+			for(int y = 0; y < boardSize; y++) {
+				if(tiles[0][y] == 'X') {
+					for(int z = 1; z < boardSize; z++) {	
+						if(tiles[0][y] == tiles[z][y]) {
+							counterX++;
+						}
+					}
+					if(counterX == 2) {
+						return 'X';
+					}
+					else {
+						counterX = 0;
+					}
+				}
+				if(tiles[0][y] == 'O') {
+					for(int z = 1; z < boardSize; z++) {	
+						if(tiles[0][y] == tiles[z][y]) {
+							counterO++;
+						}
+					}
+					if(counterO == 2) {
+						return 'O';
+					}
+					else {
+						counterO = 0;
+					}
+				}
+			}
+			//check for X and O on main diagonal
+			for(int y = 0; y < boardSize; y++) {
+				if(tiles[y][y] == 'X') {	
+					counterX++;
+				}
+			    if(tiles[y][y] == 'O') {	
+					counterO++;
+				}
+			    
+			}
+			if(counterX == 3) {
+				return 'X';
+			}
+			else {
+				counterX = 0;
+			}
+			if(counterO == 3) {
+				return 'O';
+			}
+			else {
+				counterO = 0;
+			}
+			//check for X and O on secondary diagonal
+			for(int y = 0, z = boardSize - 1; y < boardSize && z >= 0; y++, z--) {
+				if(tiles[y][z] == 'X') {
+					counterX++;
+				}
+				if(tiles[y][z] == 'O') {
+					counterO++;
+				}
+			}
+			if(counterX == 3) {
+				return 'X';
+			}
+			else {
+				counterX = 0;
+			}
+			if(counterO == 3) {
+				return 'O';
+			}
+			else {
+				counterO = 0;
+			}
+		return '%';
 	}
 	
 	public void display() {
